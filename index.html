@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박용권 아카이브</title>
+    <!-- 구글 폰트 불러오기 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('assets/img/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Tahoma', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 1. 상단 좌측 이름 (그림자 없음, 얇은 폰트) */
+        .site-title {
+            position: absolute;
+            top: 20px;
+            left: 80px; 
+            color: white;
+            font-size: 32px;
+            font-weight: 300;
+            font-family: 'Noto Sans KR', sans-serif;
+            cursor: pointer;
+            z-index: 100;
+            letter-spacing: -0.5px;
+        }
+
+        /* 2. 좌측 바탕화면 아이콘들 (작품, 전시, cv) */
+        .desktop {
+            position: absolute;
+            top: 105px; 
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            z-index: 10;
+            width: 75px;
+        }
+        .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 12px;
+            width: 100%;
+        }
+        .icon-text {
+            color: white;
+            padding: 2px 4px;
+            margin-top: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            border: 1px dotted transparent;
+            text-align: center;
+        }
+        .icon:hover .icon-text {
+            border: 1px dotted white;
+        }
+        .icon img {
+            width: 40px;
+            height: 40px;
+            image-rendering: pixelated;
+        }
+        
+        /* 3. 우측을 꽉 채우는 윈도우 창 */
+        .window {
+            display: none;
+            position: absolute;
+            top: 105px;      
+            bottom: 20px;   
+            left: 130px;    
+            right: 20px;    
+            background: #ece9d8;
+            border: 3px solid #0055e5; 
+            border-radius: 8px 8px 0 0; 
+            box-shadow: 4px 4px 15px rgba(0,0,0,0.6);
+            z-index: 50; /* 직박구리보다 위쪽에 있어서 창이 열리면 직박구리를 가림 */
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 윈도우 XP 스타일 타이틀 바 */
+        .title-bar {
+            background: linear-gradient(to right, #0058e6, #3a93ff, #2b70c9);
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+        }
+        .title-bar-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .title-bar-text img {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* 창 조절 버튼들 */
+        .window-buttons {
+            display: flex;
+            gap: 3px;
+        }
+        .win-btn {
+            width: 21px;
+            height: 21px;
+            border: 1px solid #ffffff;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.6);
+        }
+        .min-btn, .max-btn {
+            background: linear-gradient(to bottom, #2b70c9, #1d55a0);
+        }
+        .close-btn {
+            background: linear-gradient(to bottom, #e87b66, #d9381e);
+            margin-left: 4px;
+        }
+        .win-btn:active {
+            filter: brightness(0.8);
+        }
+
+        /* 창 내부 콘텐츠 영역 */
+        .content {
+            padding: 25px;
+            background: #f1f1f1;
+            flex: 1; 
+            box-sizing: border-box;
+            border: 1px solid #7f9db9;
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 좌측 이름 -->
+    <div class="site-title" onclick="closeWindow()">박용권 Park youngkwon</div>
+
+    <!-- 좌측 바탕화면 아이콘들 (작품, 전시, cv) -->
+    <div class="desktop" onclick="event.stopPropagation();">
+        <div class="icon" onclick="openWindow('작품')">
+            <img src="https://win98icons.alexmeub.com/icons/png/msie1-0.png" alt="IE">
+            <div class="icon-text">작품</div>
+        </div>
+        <div class="icon" onclick="openWindow('전시')">
+            <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" alt="My Computer">
+            <div class="icon-text">전시</div>
+        </div>
+        <div class="icon" onclick="openWindow('cv')">
+            <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="Recycle Bin">
+            <div class="icon-text">cv</div>
+        </div>
+    </div>
+
+    <!-- 오른쪽 구석탱이에 배치되어 창 뒤로 가려지는 직박구리 아이콘 -->
+    <div style="position: absolute; right: 130px; bottom: 120px; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 40;" onclick="event.stopPropagation(); openWindow('직박구리')">
+        <img src="https://win98icons.alexmeub.com/icons/png/directory_closed-4.png" alt="Folder" style="width: 40px; height: 40px; image-rendering: pixelated;">
+        <div style="color: white; padding: 2px 4px; margin-top: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-size: 12px; text-align: center;">직박구리</div>
+    </div>
+
+    <!-- 팝업되는 윈도우 창 -->
+    <div class="window" id="myWindow" onclick="event.stopPropagation();">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img id="windowIcon" src="" alt="">
+                <span id="windowTitle">제목</span>
+            </div>
+            <div class="window-buttons">
+                <div class="win-btn min-btn">_</div>
+                <div class="win-btn max-btn">□</div>
+                <div class="win-btn close-btn" onclick="closeWindow()">×</div>
+            </div>
+        </div>
+        <div class="content" id="windowContent">
+            내용이 여기에 표시됩니다.
+        </div>
+    </div>
+
+    <!-- 클릭 기능 스크립트 -->
+    <script>
+        function openWindow(title) {
+            const windowEl = document.getElementById('myWindow');
+            windowEl.style.display = 'flex'; 
+            
+            document.getElementById('windowTitle').innerText = title;
+            
+            let iconSrc = '';
+            let contentHtml = '';
+
+            if(title === '작품') {
+                iconSrc = 'https://win98icons.alexmeub.com/icons/png/msie1-0.png';
+            } else if(title === '전시') {
+                iconSrc = 'https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png';
+            } else if(title === 'cv') {
+                iconSrc = 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png';
+            } else if(title === '직박구리') {
+                iconSrc = 'https://win98icons.alexmeub.com/icons/png/directory_closed-4.png';
+            }
+
+            document.getElementById('windowIcon').src = iconSrc;
+            document.getElementById('windowContent').innerHTML = contentHtml;
+        }
+
+        function closeWindow() {
+            const windowEl = document.getElementById('myWindow');
+            windowEl.style.display = 'none';
+        }
+
+        // 바탕화면 빈 곳을 누르면 창이 닫히도록 설정
+        window.addEventListener('click', function() {
+            closeWindow();
+        });
+    </script>
+</body>
+</html>
