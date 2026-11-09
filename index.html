@@ -23,7 +23,7 @@
         .site-title {
             position: absolute;
             top: 20px;
-            left: 80px; 
+            left: 200px; 
             color: white;
             font-size: 32px;
             font-weight: 300;
@@ -75,15 +75,15 @@
         .window {
             display: none;
             position: absolute;
-            top: 105px;      
+            top: 10px;      
             bottom: 20px;   
-            left: 130px;    
+            left: 110px;    
             right: 20px;    
             background: #ece9d8;
             border: 3px solid #0055e5; 
             border-radius: 8px 8px 0 0; 
             box-shadow: 4px 4px 15px rgba(0,0,0,0.6);
-            z-index: 50; /* 직박구리보다 위쪽에 있어서 창이 열리면 직박구리를 가림 */
+            z-index: 150; /* 직박구리보다 위쪽에 있어서 창이 열리면 직박구리를 가림 */
             flex-direction: column;
             overflow: hidden;
         }
@@ -161,22 +161,22 @@
 
     <!-- 좌측 바탕화면 아이콘들 (작품, 전시, cv) -->
     <div class="desktop" onclick="event.stopPropagation();">
-        <div class="icon" onclick="openWindow('작품')">
+        <div class="icon" onclick="openWindow('박용권 작품')">
             <img src="https://win98icons.alexmeub.com/icons/png/msie1-0.png" alt="IE">
             <div class="icon-text">작품</div>
         </div>
-        <div class="icon" onclick="openWindow('전시')">
+        <div class="icon" onclick="openWindow('박용권 전시')">
             <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" alt="My Computer">
             <div class="icon-text">전시</div>
         </div>
-        <div class="icon" onclick="openWindow('cv')">
+        <div class="icon" onclick="openWindow('작가 cv')">
             <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="Recycle Bin">
             <div class="icon-text">cv</div>
         </div>
     </div>
 
     <!-- 오른쪽 구석탱이에 배치되어 창 뒤로 가려지는 직박구리 아이콘 -->
-    <div style="position: absolute; right: 130px; bottom: 120px; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 40;" onclick="event.stopPropagation(); openWindow('직박구리')">
+    <div style="position: absolute; right: 130px; bottom: 120px; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 40;" onclick="event.stopPropagation(); openWindow('쉿,,')">
         <img src="https://win98icons.alexmeub.com/icons/png/directory_closed-4.png" alt="Folder" style="width: 40px; height: 40px; image-rendering: pixelated;">
         <div style="color: white; padding: 2px 4px; margin-top: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-size: 12px; text-align: center;">직박구리</div>
     </div>
@@ -199,7 +199,7 @@
         </div>
     </div>
 
-    <!-- 클릭 기능 스크립트 -->
+    <!-- 클릭 기능 스크립트 (수정 완료 부분) -->
     <script>
         function openWindow(title) {
             const windowEl = document.getElementById('myWindow');
@@ -210,14 +210,19 @@
             let iconSrc = '';
             let contentHtml = '';
 
-            if(title === '작품') {
+            // HTML에서 지정한 이름들과 정확히 맞추어 아이콘과 내용을 연결합니다
+            if(title === '박용권 작품') {
                 iconSrc = 'https://win98icons.alexmeub.com/icons/png/msie1-0.png';
-            } else if(title === '전시') {
+                contentHtml = '  ';
+            } else if(title === '박용권 전시') {
                 iconSrc = 'https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png';
-            } else if(title === 'cv') {
+                contentHtml = '  ';
+            } else if(title === '작가 cv') {
                 iconSrc = 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png';
-            } else if(title === '직박구리') {
+                contentHtml = '  ';
+            } else if(title === '쉿,,') {
                 iconSrc = 'https://win98icons.alexmeub.com/icons/png/directory_closed-4.png';
+                contentHtml = '  ';
             }
 
             document.getElementById('windowIcon').src = iconSrc;
